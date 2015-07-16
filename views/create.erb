@@ -6,7 +6,7 @@
 <% end %>  
 </ul>
 
-<form id="form" action="/<%= @class_name.downcase %>/submit">
+<form id="form" action="/<%= @class_name.name.downcase %>/submit">
 
 <!--Add hidden id field -->
   <input type="hidden" name="my_object[id]" value=<%= @obj.id %>></input>
