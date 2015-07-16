@@ -1,6 +1,8 @@
 require "pry"
 require "active_record"
 require "sqlite3"
+require "sinatra"
+require "sinatra/reloader"
 
 ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: 'your_database.db')
 
@@ -13,9 +15,13 @@ require_relative "models/photograph.rb"
 require_relative "models/photographer.rb"
 
 
+require_relative "controllers/main_controller.rb"
+
+
+
+
 require_relative 'database_setup.rb'
 
-binding.pry
 
 
 
