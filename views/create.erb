@@ -9,14 +9,14 @@
 <form id="form" action="<%= @class_name %>/submit">
 
 <!--Add hidden id field -->
-  
   <input type="hidden" name="my_object[id]" value=<%= @obj.id %>></input>
   
   
 <!-- Display non_foreign_keys in their own input field -->
+<!--@obj.attributes brings back an Array of Arrays, the first item being the parameter name and the second item the value -->
   <% @obj.attributes.each do |attribute| %>
-   
     <% if !attribute[0].include?("id") %> 
+<!--Do not display foreign keys in a field, as they don't make sense and we don't want people to change them directly. -->
       <p>
         <label for="<%= attribute[0] %>">Enter the <%= attribute[0].humanize %></label>
         <input type="text" name="my_object[<%= attribute[0] %>]" placeholder="Type <%= attribute[0]%> here." value=<%= attribute[1] %>></input>
@@ -26,12 +26,17 @@
 
 
 <!--Display foreign keys in selectors selected for the current one. -->
+<!--reflect_on_all_associations with parameter :belongs_to brings back an Array of Association objects -->
   <% @associations = @class_name.reflect_on_all_associations(:belongs_to) %>
   <% if @associations.respond_to? :each %>
       <% @associations.each do |association| %>
+      
+<!--association.foreign_key is the name of the foreign key in this object's table -->
         <p>
           <select name="my_object[<%= association.foreign_key %>]">
+<!--association.class_name is the String of the class name.  Convert to the class itself and run 'all' to cycle through the possible numbers -->
           <% association.class_name.constantize.all.each do | foreign_key| %>
+<!-- if this object's foreign key matches the id of this foreign key, mark this option as selected -->
               <option value="<%= foreign_key.id %>" <%= "selected" if @obj.send(association.foreign_key) == foreign_key.id %>><%= foreign_key.name %></option>
           <% end %>
           </select>
