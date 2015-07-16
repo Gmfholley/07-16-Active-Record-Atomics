@@ -11,6 +11,8 @@ get "/:class_name/show" do
   erb :show
 end
 
+
+
 get "/:class_name/:action/:x" do
   @class_name = params["class_name"].classify.constantize
   case params["action"]
@@ -20,10 +22,9 @@ get "/:class_name/:action/:x" do
     else
       @message = "Not able to delete this record."
     end
-    erb: show
+    erb :show
   when "show"
-    
-    
-    
+    @obj = @class_name.find(params["x"].to_i)
+    erb :one
   end
 end
