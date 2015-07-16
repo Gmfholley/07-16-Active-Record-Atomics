@@ -1,0 +1,8 @@
+<p><%= @message %></p>
+
+<ul>
+  <% @class_name.all.each do |obj| %>
+    <li><%= obj.name %></li>
+  <% end %>
+</ul>
+
