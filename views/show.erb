@@ -2,7 +2,7 @@
 
 <ul>
   <% @class_name.all.each do |obj| %>
-    <li><%= obj.name %></li>
+    <li><%= obj.name %>  <a href="/<%= @class_name.name.downcase %>/show/<%= obj.id %>">Show Details</a>  <a href="/<%= @class_name.name.downcase %>/update/<%= obj.id %>">Update</a>  <a href="/<%= @class_name.name.downcase %>/delete/<%= obj.id %>">Delete</a></li>  
   <% end %>
 </ul>
 
