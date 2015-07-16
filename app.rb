@@ -8,8 +8,10 @@ ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: 'your_data
 ActiveRecord::Base.logger = ActiveSupport::Logger.new(STDOUT)
 
 # Models
+require_relative "models/album.rb"
 require_relative "models/photograph.rb"
 require_relative "models/photographer.rb"
+
 
 require_relative 'database_setup.rb'
 
