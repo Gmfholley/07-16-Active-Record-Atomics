@@ -1,5 +1,5 @@
 get "/home" do
-  "menu"
+  erb :menu
 end
 
 get "/:class_name/show" do
@@ -14,14 +14,24 @@ get "/:class_name/create" do
 end
 
 
-get "/:class_name/submit" do
+post "/:class_name/submit" do
   @class_name = params["class_name"].classify.constantize
-  @obj = @class_name.new(params["my_object"])
-  if @obj.save
-    @message = "Success!  Here are all the records"
-    erb :show
+  if params["my_object"]["id"] == ""
+    @obj = @class_name.new(params["my_object"])
+    if @obj.save
+      @message = "Success!  Here are all the records"
+      erb :show
+    else
+      erb :create
+    end
   else
-    erb :create
+    @obj = @class_name.find(params["my_object"]["id"].to_i)
+    if @obj.update(params["my_object"])
+      @message = "Success!  Here are all the records"
+      erb :show
+    else
+      erb :create
+    end
   end
 end
 
