@@ -1,0 +1,44 @@
+
+<!--display errors -->
+<ul>
+<% @obj.errors.each do |error| %>
+  <li><%= error.message %></li>
+<% end %>  
+</ul>
+
+<form id="form" action="<%= @class_name %>/submit">
+
+<!--Add hidden id field -->
+  
+  <input type="hidden" name="my_object[id]" value=<%= @obj.id %>></input>
+  
+  
+<!-- Display non_foreign_keys in their own input field -->
+  <% @obj.attributes.each do |attribute| %>
+   
+    <% if !attribute[0].include?("id") %> 
+      <p>
+        <label for="<%= attribute[0] %>">Enter the <%= attribute[0].humanize %></label>
+        <input type="text" name="my_object[<%= attribute[0] %>]" placeholder="Type <%= attribute[0]%> here." value=<%= attribute[1] %>></input>
+      </p>
+    <% end %>
+  <% end %>
+
+
+<!--Display foreign keys in selectors selected for the current one. -->
+  <% @associations = @class_name.reflect_on_all_associations(:belongs_to) %>
+  <% if @associations.respond_to? :each %>
+      <% @associations.each do |association| %>
+        <p>
+          <select name="my_object[<%= association.foreign_key %>]">
+          <% association.class_name.constantize.all.each do | foreign_key| %>
+              <option value="<%= foreign_key.id %>" <%= "selected" if @obj.send(association.foreign_key) == foreign_key.id %>><%= foreign_key.name %></option>
+          <% end %>
+          </select>
+        </p>
+      <% end %>
+  <% end %>
+  
+  <button type="submit">Submit Changes</button>
+  
+</form>
