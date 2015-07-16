@@ -1,5 +1,5 @@
-class Photograph
+class Photograph < ActiveRecord::Base
   validates :name, presence: true
-  validates :photrapher_id, presence: true, numericality: {only_integer: true}
+  validates :photographer_id, presence: true, numericality: {only_integer: true}
   
 end
